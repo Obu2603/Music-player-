@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Music Player</title>
+  <!-- Load FontAwesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+  <!-- Load the custom CSS style file -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f1f1f1;
+      overflow: hidden;
+    }
+    .container, .player {
+      width: 300px;
+      padding: 16px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      position: absolute;
+    }
+    .container {
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .player {
+      display: none;
+      z-index: 1;
+    }
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="login-container">
+  <h1>Login</h1>
+  <form id="login-form">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" id="username" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<div class="player" id="music-player">
+  <div class="details">
+    <div class="now-playing">PLAYING x OF y</div>
+    <div class="track-art"></div>
+    <div class="track-name">Track Name</div>
+    <div class="track-artist">Track Artist</div>
+  </div>
+  <div class="buttons">
+    <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div>
+    <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle fa-5x"></i></div>
+    <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div>
+  </div>
+  <div class="slider_container">
+    <div class="current-time">00:00</div>
+    <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+    <div class="total-duration">00:00</div>
+  </div>
+  <div class="slider_container">
+    <i class="fa fa-volume-down"></i>
+    <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
+    <i class="fa fa-volume-up"></i>
+  </div>
+</div>
+
+<script>
+  document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    // Here you would typically send the credentials to the server for validation
+    // For simplicity, we'll assume any non-empty credentials are valid
+    
+    if (username && password) {
+      document.getElementById('login-container').style.zIndex = '1';
+      document.getElementById('music-player').style.display = 'block';
+    } else {
+      alert('Please enter both username and password');
+    }
+  });
+
+  function playpauseTrack() {
+    const audio = document.getElementById('audio-player');
+    if (audio.paused) {
+      audio.play();
+      document.querySelector('.playpause-track i').classList.remove('fa-play-circle');
+      document.querySelector('.playpause-track i').classList.add('fa-pause-circle');
+    } else {
+      audio.pause();
+      document.querySelector('.playpause-track i').classList.remove('fa-pause-circle');
+      document.querySelector('.playpause-track i').classList.add('fa-play-circle');
+    }
+  }
+
+  function prevTrack() {
+    // Implement previous track functionality
+  }
+
+  function nextTrack() {
+    // Implement next track functionality
+  }
+
+  function seekTo() {
+    const seek_slider = document.querySelector('.seek_slider');
+    const audio = document.getElementById('audio-player');
+    audio.currentTime = audio.duration * (seek_slider.value / 100);
+  }
+
+  function setVolume() {
+    const volume_slider = document.querySelector('.volume_slider');
+    const audio = document.getElementById('audio-player');
+    audio.volume = volume_slider.value / 100;
+  }
+</script>
+
+<script src="main.js"></script>
+</body>
+</html>
